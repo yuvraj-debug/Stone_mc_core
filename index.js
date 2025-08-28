@@ -1,4 +1,7 @@
 require('dotenv').config();
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
 const { Client, GatewayIntentBits, EmbedBuilder, PermissionFlagsBits, ChannelType, ActionRowBuilder, ButtonBuilder, ButtonStyle, Collection, Events } = require('discord.js');
 const ms = require('ms');
 
@@ -16,6 +19,17 @@ const client = new Client({
 
 client.commands = new Collection();
 const giveawayMap = new Map();
+
+// Serve static files from a 'public' directory
+app.use(express.static('public'));
+
+app.get('/', (req, res) => {
+  res.send('Hello, Render!');
+});
+
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});
 
 // Command Registration
 const commands = [
